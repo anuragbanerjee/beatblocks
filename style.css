@@ -1,0 +1,129 @@
+
+body {
+	height: 750px;
+	width: 1250px;
+}
+
+a{
+	text-decoration: none;
+}
+
+.patternContainer{
+	width: auto;
+	height: auto;
+	display: block;
+}
+
+.pattern{
+	width: 220px;
+	height: 20px; 
+	color: white;
+	margin: 15px 5px 5px 5px;
+	font-family: "Comfortaa", sans-serif;
+	font-weight: 400;
+	font-size: 1em;
+	border-radius: 50px;
+	text-align: left;
+	padding-left: 25px;
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+#topRow{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+#bottomRow{
+	display: flex;
+	justify-content: space-around;
+}
+
+#instr_1{
+	transform: rotateZ(90deg);
+}
+
+#instr_2{	
+}
+
+#instr_3{
+}
+
+#instr_4{
+	transform: rotateZ(-90deg);
+}
+
+.user_1{
+	background: red;
+}
+
+.user_2{
+	background: purple;
+}
+
+.user_3{
+	background: blue;
+}
+
+.user_4{
+	background: grey;
+}
+
+#timeline{
+	width: 475px;
+	height: 475px;
+	border-radius: 475px;
+	border: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#timeline button {
+	font-size: 50px;
+	background: grey;
+	color: white;
+	border: solid grey 2px;
+	border-radius: 50px;
+	height: 75px;
+	width: 75px;
+	line-height: 0;
+	outline: none;
+	padding: 0;
+}
+
+#timeline button:hover {
+	opacity: .5;
+	cursor: pointer;
+}
+
+#ring1 {
+	width: 175px;
+	height: 175px;
+	border-radius: 175px;
+	border: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#ring2 {
+	width: 275px;
+	height: 275px;
+	border-radius: 275px;
+	border: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#ring3 {
+	width: 375px;
+	height: 375px;
+	border-radius: 375px;
+	border: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
