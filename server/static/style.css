@@ -1,0 +1,20 @@
+ body {
+    background: black;
+    color: white;
+    margin: 0;
+}
+
+#screen {
+	height: 100%;
+	width: 100%;
+}
+
+#animation, #animation2, #animation3, #animation4{
+	position: absolute;
+	height: 100px;
+    width: 100px;
+}
+
+.hidden {
+	display: none;
+}
