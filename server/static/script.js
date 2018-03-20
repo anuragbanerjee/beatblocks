@@ -1,15 +1,20 @@
 // here, the client will establish a websocket connection
 $(document).ready(function() {
 
-  var socket = io.connect('http://127.0.0.1:5000');
+  var socket = io.connect('http://localhost:5000');
 
   socket.on('connect', function() {
     socket.send('User has connected!');
   });
 
   socket.on('message', function(msg){
+    console.log(`msg: ${msg}`);
     $("#messages").append('<li>'+msg+'</li>');
   });
+
+  socket.on('blocks', function(blocks) {
+    $("#messages").append('<li>' + JSON.stringify(blocks) + '</li>');
+  })
 });
 
 // Audio

@@ -220,9 +220,12 @@ def findBlocks(frame, debug=False):
 Public API functions are below
 """
 
-from goprocam import GoProCamera
-from goprocam import constants
-gp = GoProCamera.GoPro()
+try:
+    from goprocam import GoProCamera
+    from goprocam import constants
+    gp = GoProCamera.GoPro()
+except:
+    print("Not connected to GO PRO wifi.")
 
 def getBlocks(debug=False):
     '''
@@ -270,3 +273,13 @@ def test():
         img = cv2.imread(fd)
         findBlocks(img, debug=True)
     cv2.destroyAllWindows()
+
+def testAPI(random=False):
+    if random:
+        import random
+        images = ["IMG_0052.JPG", "IMG_0049.JPG", "IMG_0050.JPG", "IMG_0051.JPG"]
+        img = cv2.imread("camera/" + random.choice(images))
+        return findBlocks(img)
+    else:
+        img = cv2.imread("camera/IMG_0052.JPG")
+        return findBlocks(img)
