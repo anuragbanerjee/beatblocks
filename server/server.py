@@ -10,14 +10,9 @@ import block_recognizer
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-@socketio.on('message')
-def handle_message(msg):
-    print('Message: ' + msg)
-    send(msg, broadcast=True)
-
 def sendBlocks():
     while True:
-        blocks = block_recognizer.testAPI(random=True)
+        blocks = block_recognizer.getBlocks(debug=False)
         socketio.emit("blocks", data=blocks, broadcast=True)
         socketio.sleep(1)
 

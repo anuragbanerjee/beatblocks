@@ -3,17 +3,12 @@ $(document).ready(function() {
 
   var socket = io.connect('http://localhost:5000');
 
-  socket.on('connect', function() {
-    socket.send('User has connected!');
-  });
-
-  socket.on('message', function(msg){
-    console.log(`msg: ${msg}`);
-    $("#messages").append('<li>'+msg+'</li>');
-  });
-
   socket.on('blocks', function(blocks) {
-    $("#messages").append('<li>' + JSON.stringify(blocks) + '</li>');
+    b = blocks.map(b => `${b["color"]} ${b["shape"]}<br>`).join("")
+    $("#messages").append(`
+    <li>
+      ${b}
+    </li>`);
   })
 });
 
