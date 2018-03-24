@@ -33,21 +33,32 @@ def increase_saturation(img, value=30):
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
 
-def isBlockContour(c):
-    isGoodArea = 10000 < cv2.contourArea(c) < 50000
-    isGoodPerimeter = cv2.arcLength(c, True) < 1200
+def displayToScreen(image):
+    # DEBUG: Displays the mask to determine block color
+    cv2.namedWindow("image", cv2.WINDOW_NORMAL)
+    w = int(image.shape[0]/4)
+    h = int(image.shape[1]/4)
+    cv2.resizeWindow('image', (w, h))
+    image = cv2.resize(image, (w, h))
+    cv2.imshow("image", image)
 
-    x,y,w,h = cv2.boundingRect(c)
+def isBlockContour(c):
+    isGoodArea = 8000 < cv2.contourArea(c) < 20000
+    isGoodPerimeter = cv2.arcLength(c, True) < 500
+
+    x, y, w, h = cv2.boundingRect(c)
     aspect_ratio = float(w)/h
-    isGoodAspectRatio = 0.8 < aspect_ratio < 1.2
+    isGoodAspectRatio = 0.95 < aspect_ratio < 1.2
     return isGoodArea and isGoodPerimeter and isGoodAspectRatio
 
 def findBlocks(frame, debug=False):
     original = frame.copy()
+
+    frame = cv2.flip(frame, -1)
     output = frame.copy()
 
     # pop out colors for better color detection
-    frame = increase_brightness(frame, 30)
+    frame = increase_brightness(frame, 60)
     frame = increase_saturation(frame, 60)
 
     # thresholding to isolate contours by color range
@@ -82,24 +93,19 @@ def findBlocks(frame, debug=False):
         mask = np.zeros(gray.shape, np.uint8)
         cv2.drawContours(mask,[box],0,(255,255,255), -10)
         num_rows, num_cols = mask.shape[:2]
-        translation_matrix = np.float32([
-            [1,  0, -20],
-            [0,  1, -20]
-        ])
-        shiftedMask = cv2.warpAffine(mask, translation_matrix, (num_cols, num_rows))
-        mask = cv2.bitwise_and(mask, shiftedMask)
-        mask = cv2.bitwise_not(mask, mask=shiftedMask)
+        translation_matrix = np.float32([[1,  0,   0], [0,  1, -30] ])
+        upShiftedMask = cv2.warpAffine(mask, translation_matrix, (num_cols, num_rows))
+        mask = cv2.bitwise_and(mask, upShiftedMask)
+        mask = cv2.bitwise_not(mask, mask=upShiftedMask)
 
-        if debug:
-            cv2.bitwise_not(maskOverall, maskOverall, mask = mask)
+        cv2.bitwise_not(maskOverall, maskOverall, mask = mask)
 
-            # draw bounding boxes for detected shapes/contours
-            cv2.drawContours(output,[box],0,(0, 0, 255), 10)
+        # draw bounding boxes for detected shapes/contours
+        cv2.drawContours(output,[box],0,(0, 0, 255), 10)
 
         # get the average color from the sampled region
-        blurred = cv2.GaussianBlur(output, (3, 3), 0)
+        blurred = cv2.GaussianBlur(output, (9, 9), 0)
         blockColor = cv2.mean(blurred, mask)
-
 
         # convert from BGR to RGB
         blockColor = (blockColor[2], blockColor[1], blockColor[0])
@@ -127,6 +133,9 @@ def findBlocks(frame, debug=False):
             "pink": int(getColorMatchPercentage(pink, blockColor))
         }
 
+        colorMatches["blue"] *= 1.16
+        colorMatches["purple"] -= 2
+
         predictedColor = max(colorMatches, key=colorMatches.get)
 
         # determines number of corners in the contour
@@ -138,30 +147,36 @@ def findBlocks(frame, debug=False):
             predictedShape = "triangle"
         elif corners == 4:
             predictedShape = "square"
-        elif corners > 4:
-            predictedShape = "circle"
+        elif corners == 5:
+            predictedShape = "pentagon"
         else:
-            predictedShape = '??????'
+            predictedShape = "circle"
 
-        M = cv2.moments(cnt)
-        cx = int(M['m10']/M['m00'])
-        cy = int(M['m01']/M['m00'])
+        try:
+            M = cv2.moments(cnt)
+            cx = int(M['m10']/M['m00'])
+            cy = int(M['m01']/M['m00'])
+        except:
+            continue
+
 
         print("{} {} {}".format(id, predictedColor, predictedShape))
         print("block color", list(map(int, blockColor)))
+        print("corners", corners)
         print("area", area)
         print("perimeter", peri)
 
         x,y,w,h = cv2.boundingRect(cnt)
         aspect_ratio = float(w)/h
         print("aspect ratio", aspect_ratio)
-
+        
         print("color match confidence:", sorted(colorMatches.items(), key=lambda x: -x[1]), "\n")
 
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(output, str(id), (cx - 50, cy), font, 2, (0, 0, 0), thickness = 3)
-        cv2.putText(output, predictedColor, (cx - 50, cy + 50), font, 2, (0, 0, 0), thickness = 3)
-        cv2.putText(output, predictedShape, (cx - 50, cy + 100), font, 2, (0, 0, 0), thickness = 3)
+        if debug:
+            font = cv2.FONT_HERSHEY_DUPLEX
+            cv2.putText(output, str(id), (cx - 50, cy), font, 1.5, (255, 255, 255), thickness = 3)
+            cv2.putText(output, predictedColor, (cx - 50, cy + 50), font, 1.5, (255, 255, 255), thickness = 3)
+            cv2.putText(output, predictedShape, (cx - 50, cy + 100), font, 1.5, (255, 255, 255), thickness = 3)
 
         id += 1
 
@@ -174,21 +189,26 @@ def findBlocks(frame, debug=False):
             "shape": predictedShape
         })
 
-        print(blocks)
+        # print(blocks)
 
 
     if debug:
         # overlay masks to overall image
         maskOverall = cv2.cvtColor(maskOverall, cv2.COLOR_GRAY2BGR)
-        maskOverall = cv2.addWeighted(maskOverall, 0.7, output, 0.3, 0)
+        maskOverall = cv2.addWeighted(maskOverall, 0.5, blurred, 0.5, 0)
+        def auto_canny(image, sigma=0.33):
+            # compute the median of the single channel pixel intensities
+            v = np.median(image)
+         
+            # apply automatic Canny edge detection using the computed median
+            lower = int(max(0, (1.0 - sigma) * v))
+            upper = int(min(255, (1.0 + sigma) * v))
+            edged = cv2.Canny(image, lower, upper)
+         
+            # return the edged image
+            return edged
 
-        # DEBUG: Displays the mask to determine block color
-        cv2.namedWindow("maskOverall", cv2.WINDOW_NORMAL)
-        w = int(maskOverall.shape[0]/4)
-        h = int(maskOverall.shape[1]/4)
-        cv2.resizeWindow('maskOverall', (w, h))
-        maskOverall = cv2.resize(maskOverall, (w, h))
-        cv2.imshow("maskOverall", maskOverall)
+        displayToScreen(maskOverall)
 
     # Displays the output frame
     # cv2.namedWindow("Output", cv2.WINDOW_NORMAL)
@@ -224,8 +244,13 @@ try:
     from goprocam import GoProCamera
     from goprocam import constants
     gp = GoProCamera.GoPro()
+
+    url = gp.getMedia()
 except:
     print("Not connected to GO PRO wifi.")
+    
+    import sys
+    sys.exit(1)
 
 def getBlocks(debug=False):
     '''
@@ -262,7 +287,7 @@ def getBlocks(debug=False):
     	pass
     else:
       blocks = findBlocks(frame, debug=debug)
-    gp.delete("last");
+    
     cap.release()
 
     return blocks
@@ -283,3 +308,20 @@ def testAPI(random=False):
     else:
         img = cv2.imread("camera/IMG_0052.JPG")
         return findBlocks(img)
+
+if __name__ == '__main__':
+    import signal
+    import sys
+    pressed = False
+    def signal_handler(signal, frame):
+        global pressed
+        if pressed == False:
+            gp.delete("last");
+            print("DELETING LAST IMAGE")
+            sys.exit(0)
+            pressed = True
+    signal.signal(signal.SIGINT, signal_handler)
+    print('Press Ctrl+C to end')
+
+    while True:
+        getBlocks(debug=True)
