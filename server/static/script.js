@@ -4,9 +4,15 @@ function shouldBlockPlay(color, shape){
   return matches.length > 0;
 }
 
+const c = new AudioContext();
+let sounds = [];
+let volumes = {};
+let sources = [];
+
 $(document).ready(function() {
   var socket = io.connect('http://localhost:5000');
 
+  let started = false;
   socket.on('blocks', (blocks) => {
     let b = blocks.map(b => `<li>${b["color"]} ${b["shape"]}</li>`).join("")
     $("#messages").append(`
@@ -15,8 +21,140 @@ $(document).ready(function() {
     </ol><br>`);
 
     all_blocks = blocks;
+
+    if (started == false) {
+      sources.forEach(s => s.start())
+      started = true;
+    }
   });
 });
+
+playSounds()
+function playSounds () {
+  const finishedLoading = function (soundFiles) {
+    volumes = {};
+    Object.entries(soundFiles).forEach(([name, b]) => {
+      const source = c.createBufferSource();
+      source.buffer = b;
+      source.loop = true;
+
+      const gain = c.createGain();
+      gain.gain.value = 0;
+
+      source.connect(gain);
+      gain.connect(c.destination);
+
+      sources.push(source);
+      volumes[name] = gain.gain;
+
+      const melodies = [
+        {
+          el: volumes["melody1"],
+          shape: "triangle"
+        },{
+          el: volumes["melody2"],
+          shape: "square"
+        },{
+          el: volumes["melody3"],
+          shape: "pentagon"
+        },{
+          el: volumes["melody4"],
+          shape: "circle"
+        },
+      ].map(m => {
+        m.color = "blue";
+        return m;
+      });
+
+      const pads = [
+        {
+          el: volumes["pads1"],
+          shape: "triangle"
+        },{
+          el: volumes["pads2"],
+          shape: "square"
+        },{
+          el: volumes["pads3"],
+          shape: "pentagon"
+        },{
+          el: volumes["pads4"],
+          shape: "circle"
+        },
+      ].map(m => {
+        m.color = "purple";
+        return m;
+      });
+
+      const arps = [
+        {
+          el: volumes["arps1"],
+          shape: "triangle"
+        },{
+          el: volumes["arps2"],
+          shape: "square"
+        },{
+          el: volumes["arps3"],
+          shape: "pentagon"
+        },{
+          el: volumes["arps4"],
+          shape: "circle"
+        },
+      ].map(m => {
+        m.color = "pink";
+        return m;
+      });
+
+      const percs = [
+        {
+          el: volumes["perc1"],
+          shape: "triangle"
+        },{
+          el: volumes["perc2"],
+          shape: "square"
+        },{
+          el: volumes["perc3"],
+          shape: "pentagon"
+        },{
+          el: volumes["perc4"],
+          shape: "circle"
+        },
+      ].map(m => {
+        m.color = "orange";
+        return m;
+      });
+
+      sounds = Array.prototype.concat(melodies, pads, arps, percs);
+    });
+  }
+
+  const bufferLoader = new BufferLoader(
+      c,
+      {
+        arps1: 'static/sounds/arp 1.mp3',
+        arps2: 'static/sounds/arp 2.mp3',
+        arps3: 'static/sounds/arp 3.mp3',
+        arps4: 'static/sounds/arp 4.mp3',
+
+        melody1: 'static/sounds/melody 1.mp3',
+        melody2: 'static/sounds/melody 2.mp3',
+        melody3: 'static/sounds/melody 3.mp3',
+        melody4: 'static/sounds/melody 4.mp3',
+
+        pads1: 'static/sounds/pads 1.mp3',
+        pads2: 'static/sounds/pads 2.mp3',
+        pads3: 'static/sounds/pads 3.mp3',
+        pads4: 'static/sounds/pads 4.mp3',
+
+        perc1: 'static/sounds/perc 1.mp3',
+        perc2: 'static/sounds/perc 2.mp3',
+        perc3: 'static/sounds/perc 3.mp3',
+        perc4: 'static/sounds/perc 4.mp3'
+      },
+      finishedLoading
+  );
+
+  bufferLoader.load();
+}
 
 // Audio
 const melody1 = document.getElementById("melody1");
@@ -39,96 +177,17 @@ const pads4 = document.getElementById("pads4");
 const arps4 = document.getElementById("arp4");
 const perc4 = document.getElementById("perc4");
 
-const melodies = [
-  {
-    el: melody1,
-    shape: "triangle"
-  },{
-    el: melody2,
-    shape: "square"
-  },{
-    el: melody3,
-    shape: "pentagon"
-  },{
-    el: melody4,
-    shape: "circle"
-  },
-].map(m => {
-  m.color = "blue";
-  return m;
-});
-
-const pads = [
-  {
-    el: pads1,
-    shape: "triangle"
-  },{
-    el: pads2,
-    shape: "square"
-  },{
-    el: pads3,
-    shape: "pentagon"
-  },{
-    el: pads4,
-    shape: "circle"
-  },
-].map(m => {
-  m.color = "purple";
-  return m;
-});
-
-const arps = [
-  {
-    el: arps1,
-    shape: "triangle"
-  },{
-    el: arps2,
-    shape: "square"
-  },{
-    el: arps3,
-    shape: "pentagon"
-  },{
-    el: arps4,
-    shape: "circle"
-  },
-].map(m => {
-  m.color = "pink";
-  return m;
-});
-
-const percs = [
-  {
-    el: perc1,
-    shape: "triangle"
-  },{
-    el: perc2,
-    shape: "square"
-  },{
-    el: perc3,
-    shape: "pentagon"
-  },{
-    el: perc4,
-    shape: "circle"
-  },
-].map(m => {
-  m.color = "orange";
-  return m;
-});
-
-const sounds = Array.prototype.concat(melodies, pads, arps, percs);
-
 console.log(`starting sounds`);
-sounds.forEach(s => {
-  s.el.muted = !shouldBlockPlay(s.color, s.shape);
-  s.el.loop = true;
-  s.el.play();
-});
+
+const updateSounds = () => {
+  sounds.forEach(s => {
+    s.el.value = shouldBlockPlay(s.color, s.shape) ? 1 : 0;
+  });
+};
 
 setInterval(() => {
   console.log("blocks", JSON.stringify(all_blocks))
-  sounds.forEach(s => {
-    s.el.muted = !shouldBlockPlay(s.color, s.shape);
-  });
+  updateSounds();
 }, 1000);
 
 
