@@ -3,8 +3,6 @@
     <head>
       <title>Hello World</title>
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-      <script type="text/javascript" src="static/socket.io.min.js"></script>
-      <script src="static/jquery.min.js"></script>
     </head>
     
     <body>
@@ -15,25 +13,25 @@
       <!--</div>-->
 
 
-      <audio id="melody1" src="static/sounds/melody 1.wav" autoplay="0" preload="auto"></audio>
-      <audio id="melody2" src="static/sounds/melody 2.wav" autoplay="0" preload="auto"></audio>
-      <audio id="melody3" src="static/sounds/melody 3.wav" autoplay="0" preload="auto"></audio>
-      <audio id="melody4" src="static/sounds/melody 4.wav" autoplay="0" preload="auto"></audio>
+      <audio id="melody1" src="static/sounds/melody 1.wav"></audio>
+      <audio id="melody2" src="static/sounds/melody 2.wav"></audio>
+      <audio id="melody3" src="static/sounds/melody 3.wav"></audio>
+      <audio id="melody4" src="static/sounds/melody 4.wav"></audio>
 
-      <audio id="arp1" src="static/sounds/arp 1.wav" autoplay="0" preload="auto"></audio>
-      <audio id="arp2" src="static/sounds/arp 2.wav" autoplay="0" preload="auto"></audio>
-      <audio id="arp3" src="static/sounds/arp 3.wav" autoplay="0" preload="auto"></audio>
-      <audio id="arp4" src="static/sounds/arp 4.wav" autoplay="0" preload="auto"></audio>
+      <audio id="arp1" src="static/sounds/arp 1.wav"></audio>
+      <audio id="arp2" src="static/sounds/arp 2.wav"></audio>
+      <audio id="arp3" src="static/sounds/arp 3.wav"></audio>
+      <audio id="arp4" src="static/sounds/arp 4.wav"></audio>
 
-      <audio id="pads1" src="static/sounds/pads 1.wav" autoplay="0" preload="auto"></audio>
-      <audio id="pads2" src="static/sounds/pads 2.wav" autoplay="0" preload="auto"></audio>
-      <audio id="pads3" src="static/sounds/pads 3.wav" autoplay="0" preload="auto"></audio>
-      <audio id="pads4" src="static/sounds/pads 4.wav" autoplay="0" preload="auto"></audio>
+      <audio id="pads1" src="static/sounds/pads 1.wav"></audio>
+      <audio id="pads2" src="static/sounds/pads 2.wav"></audio>
+      <audio id="pads3" src="static/sounds/pads 3.wav"></audio>
+      <audio id="pads4" src="static/sounds/pads 4.wav"></audio>
 
-      <audio id="perc1" src="static/sounds/perc 1.wav" autoplay="0" preload="auto"></audio>
-      <audio id="perc2" src="static/sounds/perc 2.wav" autoplay="0" preload="auto"></audio>
-      <audio id="perc3" src="static/sounds/perc 3.wav" autoplay="0" preload="auto"></audio>
-      <audio id="perc4" src="static/sounds/perc 4.wav" autoplay="0" preload="auto"></audio>
+      <audio id="perc1" src="static/sounds/perc 1.wav"></audio>
+      <audio id="perc2" src="static/sounds/perc 2.wav"></audio>
+      <audio id="perc3" src="static/sounds/perc 3.wav"></audio>
+      <audio id="perc4" src="static/sounds/perc 4.wav"></audio>
 
       <ul id="messages"></ul>
 
@@ -47,6 +45,12 @@
       {% endraw %}
 
       <script src="static/vue.js"></script>
+
+      <script src="static/socket.io.min.js"></script>
+      <script src="static/buffer-loader.js"></script>
+      
+      <script src="static/jquery.min.js"></script>
+
       <script src="static/lottie.js" type="text/javascript"></script>
       <script src="static/script.js" type="text/javascript"></script>
     </body>
