@@ -13,8 +13,8 @@ socketio = SocketIO(app)
 def sendBlocks():
     while True:
         blocks = block_recognizer.getBlocks(debug=False)
+        socketio.sleep(0.1)
         socketio.emit("blocks", data=blocks, broadcast=True)
-        socketio.sleep(1)
 
 socketio.start_background_task(target=sendBlocks)
 

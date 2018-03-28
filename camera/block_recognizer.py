@@ -75,6 +75,8 @@ def findBlocks(frame, debug=False):
     maskOverall = np.zeros(gray.shape, np.uint8)
     id = 1
 
+    blurred = original.copy()
+
     blocks = []
     for cnt in contours:
         # rotated bounding rectangle
@@ -135,6 +137,7 @@ def findBlocks(frame, debug=False):
 
         colorMatches["blue"] *= 1.16
         colorMatches["purple"] -= 2
+        colorMatches["pink"] += 2
 
         predictedColor = max(colorMatches, key=colorMatches.get)
 

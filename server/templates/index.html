@@ -13,6 +13,28 @@
       <!--<div id="app">-->
           <!--<p>{{ message }}</p>-->
       <!--</div>-->
+
+
+      <audio id="melody1" src="static/sounds/melody 1.wav" autoplay="0" preload="auto"></audio>
+      <audio id="melody2" src="static/sounds/melody 2.wav" autoplay="0" preload="auto"></audio>
+      <audio id="melody3" src="static/sounds/melody 3.wav" autoplay="0" preload="auto"></audio>
+      <audio id="melody4" src="static/sounds/melody 4.wav" autoplay="0" preload="auto"></audio>
+
+      <audio id="arp1" src="static/sounds/arp 1.wav" autoplay="0" preload="auto"></audio>
+      <audio id="arp2" src="static/sounds/arp 2.wav" autoplay="0" preload="auto"></audio>
+      <audio id="arp3" src="static/sounds/arp 3.wav" autoplay="0" preload="auto"></audio>
+      <audio id="arp4" src="static/sounds/arp 4.wav" autoplay="0" preload="auto"></audio>
+
+      <audio id="pads1" src="static/sounds/pads 1.wav" autoplay="0" preload="auto"></audio>
+      <audio id="pads2" src="static/sounds/pads 2.wav" autoplay="0" preload="auto"></audio>
+      <audio id="pads3" src="static/sounds/pads 3.wav" autoplay="0" preload="auto"></audio>
+      <audio id="pads4" src="static/sounds/pads 4.wav" autoplay="0" preload="auto"></audio>
+
+      <audio id="perc1" src="static/sounds/perc 1.wav" autoplay="0" preload="auto"></audio>
+      <audio id="perc2" src="static/sounds/perc 2.wav" autoplay="0" preload="auto"></audio>
+      <audio id="perc3" src="static/sounds/perc 3.wav" autoplay="0" preload="auto"></audio>
+      <audio id="perc4" src="static/sounds/perc 4.wav" autoplay="0" preload="auto"></audio>
+
       <ul id="messages"></ul>
 
       {% raw %}
@@ -23,11 +45,6 @@
             <div id="animation4" v-bind:style="{top: y4, left: x4 }" v-bind:class="{hidden: drumHide}"></div>
           </div>
       {% endraw %}
-
-      <audio id="melody" src="static/BB_melody.mp3"></audio>
-      <audio id="pads" src="static/BB_pads.mp3"></audio>
-      <audio id="arps" src="static/BB_arps.mp3"></audio>
-      <audio id="drums" src="static/BB_drums.mp3"></audio>
 
       <script src="static/vue.js"></script>
       <script src="static/lottie.js" type="text/javascript"></script>
