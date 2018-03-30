@@ -20,7 +20,7 @@ def genBlocks():
 
 def sendBlocks():
     while True:
-        # blocks = block_recognizer.getBlocks(debug=False)
+        blocks = block_recognizer.getBlocks(debug=False)
         blocks = genBlocks() # for testing purposes only
         socketio.sleep(8)
         socketio.emit("blocks", data=blocks, broadcast=True)
