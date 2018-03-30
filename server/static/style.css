@@ -2,6 +2,7 @@
     background: black;
     color: white;
     margin: 0;
+    overflow: hidden;
 }
 
 #screen {
@@ -9,16 +10,20 @@
 	width: 100%;
 }
 
+#screen > * {
+	transform: scale(2, 2);
+}
+
 #magenta, #orange, #purple, #blue, #green, #red {
+	position: absolute;
 	height: 208px;
 	width: 686px;
-	position: absolute;
 }
 
 #magenta {
-	left: 0;
 	top: 50%;
-	transform: rotate(270deg);
+	left: -200px;
+	transform: rotate(90deg) scale(2, 2);
 }
 
 #orange {
@@ -33,13 +38,14 @@
 
 #blue {
 	top: 50%;
-	right: 0;
-	transform: rotate(90deg);
+	right: -200px;
+	transform: rotate(-90deg) scale(2, 2);
 }
 
 #red, #green {
 	top: 50%;
 	left: 30%;
+	margin-top: -100px;
 }
 
 svg {

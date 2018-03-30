@@ -14,19 +14,20 @@ $(document).ready(function() {
 
   let started = false;
   socket.on('blocks', (blocks) => {
+    console.log("from server: ", block);
     let b = blocks.map(b => `<li>${b["color"]} ${b["shape"]}</li>`).join("")
-    $("#messages").append(`
-    <ol>
-      ${b}
-    </ol><br>`);
+    $("#messages").innerHTML = `
+      ${b}`;
 
     all_blocks = blocks;
 
     if (started == false) {
-      sources.forEach(s => s.start())
+      sources.forEach(s => s.start(0))
       started = true;
     }
   });
+
+  triggerAnimations();
 });
 
 playSounds()
@@ -188,7 +189,7 @@ const updateSounds = () => {
 setInterval(() => {
   console.log("blocks", JSON.stringify(all_blocks))
   updateSounds();
-}, 1000);
+}, 8000);
 
 
 // Vue.js
@@ -225,51 +226,54 @@ new Vue({
   }
 });
 
-//json animations
-var magenta = lottie.loadAnimation({
-  container: document.getElementById("magenta"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/mag.json' // the path to the animation json
-});
+function triggerAnimations () {
 
-var orange = lottie.loadAnimation({
-  container: document.getElementById("orange"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/oj.json' // the path to the animation json
-});
+  //json animations
+  var magenta = lottie.loadAnimation({
+    container: document.getElementById("magenta"),
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: 'static/mag.json' // the path to the animation json
+  });
 
-var purple = lottie.loadAnimation({
-  container: document.getElementById("purple"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/purp.json' // the path to the animation json
-});
+  var orange = lottie.loadAnimation({
+    container: document.getElementById("orange"),
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: 'static/oj.json' // the path to the animation json
+  });
 
-var blue  = lottie.loadAnimation({
-  container: document.getElementById("blue"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/blue.json' // the path to the animation json
-});
+  var purple = lottie.loadAnimation({
+    container: document.getElementById("purple"),
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: 'static/purp.json' // the path to the animation json
+  });
 
-var green  = lottie.loadAnimation({
-  container: document.getElementById("green"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/grn.json' // the path to the animation json
-});
+  var blue  = lottie.loadAnimation({
+    container: document.getElementById("blue"),
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: 'static/blue.json' // the path to the animation json
+  });
 
-var red  = lottie.loadAnimation({
-  container: document.getElementById("red"),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'static/red.json' // the path to the animation json
-});
+  var green  = lottie.loadAnimation({
+    container: document.getElementById("green"),
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: 'static/grn.json' // the path to the animation json
+  });
+
+  var red  = lottie.loadAnimation({
+    container: document.getElementById("red"),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'static/red.json' // the path to the animation json
+  });
+}

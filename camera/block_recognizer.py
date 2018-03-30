@@ -43,9 +43,9 @@ def displayToScreen(image):
     cv2.imshow("image", image)
 
 def isBlockContour(c):
-    isGoodArea = 8000 < cv2.contourArea(c) < 20000
+    isGoodArea = 8000 < cv2.contourArea(c) < 30000
 
-    isGoodPerimeter = 300 < cv2.arcLength(c, True) < 550
+    isGoodPerimeter = 400 < cv2.arcLength(c, True) < 700
 
     x, y, w, h = cv2.boundingRect(c)
     aspect_ratio = float(w)/h
@@ -59,13 +59,13 @@ def findBlocks(frame, debug=False):
     output = frame.copy()
 
     # pop out colors for better color detection
-    frame = increase_brightness(frame, 60)
-    frame = increase_saturation(frame, 60)
+    frame = increase_brightness(frame, 90)
+    frame = increase_saturation(frame, 75)
 
     # thresholding to isolate contours by color range
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
     gray = cv2.bilateralFilter(gray, 20, 75, 75)
-    _, gray = cv2.threshold(gray, 150, 200, cv2.THRESH_BINARY_INV)
+    _, gray = cv2.threshold(gray, 150, 230, cv2.THRESH_BINARY_INV)
 
     _, contours, _ = cv2.findContours(gray, 1, 2)
     print(len(contours), "contours detected")
@@ -136,9 +136,9 @@ def findBlocks(frame, debug=False):
             "pink": int(getColorMatchPercentage(pink, blockColor))
         }
 
-        colorMatches["blue"] *= 1.16
-        colorMatches["purple"] -= 2
-        colorMatches["pink"] += 2
+        colorMatches["blue"] *= 1.2
+        colorMatches["purple"] -= 3.5
+        # colorMatches["pink"] += 1.5
 
         predictedColor = max(colorMatches, key=colorMatches.get)
 
@@ -185,10 +185,6 @@ def findBlocks(frame, debug=False):
         id += 1
 
         blocks.append({
-            "position": {
-                "x": cx,
-                "y": cy
-            },
             "color": predictedColor,
             "shape": predictedShape
         })
@@ -249,14 +245,13 @@ try:
     from goprocam import GoProCamera
     from goprocam import constants
     gp = GoProCamera.GoPro()
-
-    url = gp.getMedia()
 except:
     print("Not connected to GO PRO wifi.")
     
     import sys
     sys.exit(1)
 
+import time
 def getBlocks(debug=False):
     '''
     returns something like [
@@ -280,9 +275,20 @@ def getBlocks(debug=False):
         }
     ]
     '''
-    gp.take_photo()
+
+    gp.mode(constants.Mode.PhotoMode, constants.Mode.SubMode.Photo.Single)
+    gp.shutter(constants.start)
+    gp.shutter(constants.stop)
+    
+    time.sleep(1)
+
     url = gp.getMedia()
     print(url)
+
+    if len(url) < 1:
+        print("URL NOT READY")
+        return None
+
     cap = cv2.VideoCapture(url)
     grabbed, frame = cap.read()
 
@@ -292,7 +298,8 @@ def getBlocks(debug=False):
     	pass
     else:
       blocks = findBlocks(frame, debug=debug)
-    
+      gp.delete("all")
+      
     cap.release()
 
     return blocks
