@@ -196,144 +196,80 @@ new Vue({
   el: '#screen',
   data: {
     message: 'Hello Vue.js!',
-    x: 0, y: 0,
-    x2: 0, y2: 0,
-    x3: 0, y3: 0,
-    x4: 0, y4: 0,
-    melHide: true,
-    padHide: true,
-    arpHide: true,
-    drumHide: true,
+    magHide: false,
+    ojHide: false,
+    purpHide: false,
+    blueHide: false,
+    greenHide: false,
+    redHide: false,
   },
   methods: {
-    updateMelody:function(event){
-      this.x = event.pageX - 50;
-      this.y = event.pageY - 50;
-      this.melHide = false;
-      
-      if(pads.paused == false) {
-        pads.addEventListener('play',function(){
-          melody.play();
-        })
-      }
-      else if(arps.paused == false) {
-        arps.addEventListener('play',function(){
-          melody.play();
-        })
-      }
-      else if(drums.paused == false) {
-        drums.addEventListener('play',function(){
-          melody.play();
-        })
-      }
-      else {
-        melody.play();
-      }
+    updateMag:function(event){
+      this.magHide = true;
     },
-    updatePads:function(event){
-      this.x2 = event.pageX - 50;
-      this.y2 = event.pageY - 50;
-      this.padHide = false;
-      
-      if(melody.paused == false) {
-        melody.addEventListener('play', function(){
-          pads.play();
-        });
-      }
-      else if(arps.paused == false) {
-        arps.addEventListener('play',function(){
-          pads.play();
-        })
-      }
-      else if(drums.paused == false) {
-        drums.addEventListener('play',function(){
-          pads.play();
-        })
-      } 
-      else {
-        pads.play();
-      } 
+    updateOj:function(event){
+      this.ojHide = true;
     },
-    updateArps:function(event){
-      this.x3 = event.pageX - 50;
-      this.y3 = event.pageY - 50;
-      this.arpHide = false;
-
-      if(melody.paused == false) {
-        melody.addEventListener('play', function(){
-          arps.play();
-        });
-      }
-      else if(pads.paused == false) {
-        pads.addEventListener('play',function(){
-          arps.play();
-        })
-      }
-      else if(drums.paused == false) {
-        drums.addEventListener('play',function(){
-          arps.play();
-        })
-      } 
-      else {
-        arps.play();
-      }
+    updatePurp:function(event){
+      this.purpHide = true;
     },
-    updateDrums:function(event){
-      this.x4 = event.pageX - 50;
-      this.y4 = event.pageY - 50;
-      this.drumHide = false;
-
-      if(melody.paused == false) {
-        melody.addEventListener('play', function(){
-          drums.play();
-        });
-      }
-      else if(pads.paused == false) {
-        pads.addEventListener('play',function(){
-          drums.play();
-        })
-      }
-      else if(arps.paused == false) {
-        arps.addEventListener('play',function(){
-          drums.play();
-        })
-      }
-      else {
-        drums.play();
-      }
+    updateBlue:function(event){
+      this.blueHide = true;
     }
+    // updateGreen:function(event){
+    //   this.greenHide = true;
+    // }
+    // updateRed:function(event){
+    //   this.redHide = true;
+    // }
   }
 });
 
 //json animations
-var anim = lottie.loadAnimation({
-  container: document.getElementById("animation"),
+var magenta = lottie.loadAnimation({
+  container: document.getElementById("magenta"),
   renderer: 'svg',
   loop: true,
   autoplay: true,
-  path: 'static/sonar.json' // the path to the animation json
+  path: 'static/mag.json' // the path to the animation json
 });
 
-var anim2 = lottie.loadAnimation({
-  container: document.getElementById("animation2"),
+var orange = lottie.loadAnimation({
+  container: document.getElementById("orange"),
   renderer: 'svg',
   loop: true,
   autoplay: true,
-  path: 'static/play_button.json' // the path to the animation json
+  path: 'static/oj.json' // the path to the animation json
 });
 
-var anim3 = lottie.loadAnimation({
-  container: document.getElementById("animation3"),
+var purple = lottie.loadAnimation({
+  container: document.getElementById("purple"),
   renderer: 'svg',
   loop: true,
   autoplay: true,
-  path: 'static/pulsing_beacon.json' // the path to the animation json
+  path: 'static/purp.json' // the path to the animation json
 });
 
-var anim4 = lottie.loadAnimation({
-  container: document.getElementById("animation4"),
+var blue  = lottie.loadAnimation({
+  container: document.getElementById("blue"),
   renderer: 'svg',
   loop: true,
   autoplay: true,
-  path: 'static/six_spoke_spinner.json' // the path to the animation json
+  path: 'static/blue.json' // the path to the animation json
+});
+
+var green  = lottie.loadAnimation({
+  container: document.getElementById("green"),
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'static/grn.json' // the path to the animation json
+});
+
+var red  = lottie.loadAnimation({
+  container: document.getElementById("red"),
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'static/red.json' // the path to the animation json
 });

@@ -9,10 +9,42 @@
 	width: 100%;
 }
 
-#animation, #animation2, #animation3, #animation4{
+#magenta, #orange, #purple, #blue, #green, #red {
+	height: 208px;
+	width: 686px;
 	position: absolute;
-	height: 100px;
-    width: 100px;
+}
+
+#magenta {
+	left: 0;
+	top: 50%;
+	transform: rotate(270deg);
+}
+
+#orange {
+	left: 12%;
+	bottom: 0;
+}
+
+#purple {
+	bottom: 0;
+	right: 12%;
+}
+
+#blue {
+	top: 50%;
+	right: 0;
+	transform: rotate(90deg);
+}
+
+#red, #green {
+	top: 50%;
+	left: 30%;
+}
+
+svg {
+	height: 208px;
+	width: 686px;
 }
 
 .hidden {

@@ -36,11 +36,13 @@
       <ul id="messages"></ul>
 
       {% raw %}
-          <div id="screen" v-on:dblclick="updateMelody" v-on:click.alt="updatePads" v-on:click.shift="updateArps" v-on:click.meta="updateDrums">
-            <div id="animation" v-bind:style="{top: y, left: x }" v-bind:class="{hidden: melHide}"></div>
-            <div id="animation2" v-bind:style="{top: y2, left: x2 }" v-bind:class="{hidden: padHide}"></div>
-            <div id="animation3" v-bind:style="{top: y3, left: x3 }" v-bind:class="{hidden: arpHide}"></div>
-            <div id="animation4" v-bind:style="{top: y4, left: x4 }" v-bind:class="{hidden: drumHide}"></div>
+          <div id="screen" v-on:dblclick="updateMag" v-on:click.alt="updateOj" v-on:click.shift="updatePurp" v-on:click.meta="updateBlue">
+            <div id="magenta" v-bind:class="{hidden: magHide}"></div>
+            <div id="orange" v-bind:class="{hidden: ojHide}"></div>
+            <div id="purple" v-bind:class="{hidden: purpHide}"></div>
+            <div id="blue" v-bind:class="{hidden: blueHide}"></div>
+            <div id="green" v-bind:class="{hidden: greenHide}"></div>
+            <div id="red" v-bind:class="{hidden: redHide}"></div>
           </div>
       {% endraw %}
 
