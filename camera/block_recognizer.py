@@ -44,7 +44,8 @@ def displayToScreen(image):
 
 def isBlockContour(c):
     isGoodArea = 8000 < cv2.contourArea(c) < 20000
-    isGoodPerimeter = cv2.arcLength(c, True) < 500
+
+    isGoodPerimeter = 300 < cv2.arcLength(c, True) < 550
 
     x, y, w, h = cv2.boundingRect(c)
     aspect_ratio = float(w)/h
@@ -64,7 +65,7 @@ def findBlocks(frame, debug=False):
     # thresholding to isolate contours by color range
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
     gray = cv2.bilateralFilter(gray, 20, 75, 75)
-    _, gray = cv2.threshold(gray, 180, 220, cv2.THRESH_BINARY_INV)
+    _, gray = cv2.threshold(gray, 150, 200, cv2.THRESH_BINARY_INV)
 
     _, contours, _ = cv2.findContours(gray, 1, 2)
     print(len(contours), "contours detected")
@@ -199,6 +200,7 @@ def findBlocks(frame, debug=False):
         # overlay masks to overall image
         maskOverall = cv2.cvtColor(maskOverall, cv2.COLOR_GRAY2BGR)
         maskOverall = cv2.addWeighted(maskOverall, 0.5, blurred, 0.5, 0)
+        # maskOverall = cv2.flip(maskOverall, -1)
         def auto_canny(image, sigma=0.33):
             # compute the median of the single channel pixel intensities
             v = np.median(image)
