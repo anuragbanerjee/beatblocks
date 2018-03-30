@@ -244,7 +244,7 @@ Public API functions are below
 try:
     from goprocam import GoProCamera
     from goprocam import constants
-    gp = GoProCamera.GoPro()
+    gp = GoProCamera.GoPro(mac_address="f6dd9e42f166")
 except:
     print("Not connected to GO PRO wifi.")
     
