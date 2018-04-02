@@ -131,25 +131,25 @@ function playSounds () {
   const bufferLoader = new BufferLoader(
       c,
       {
-        arps1: 'static/sounds/arp 1.mp3',
-        arps2: 'static/sounds/arp 2.mp3',
-        arps3: 'static/sounds/arp 3.mp3',
-        arps4: 'static/sounds/arp 4.mp3',
+        arps1: 'static/sounds/arp 1.ogg',
+        arps2: 'static/sounds/arp 2.ogg',
+        arps3: 'static/sounds/arp 3.ogg',
+        arps4: 'static/sounds/arp 4.ogg',
 
-        melody1: 'static/sounds/melody 1.mp3',
-        melody2: 'static/sounds/melody 2.mp3',
-        melody3: 'static/sounds/melody 3.mp3',
-        melody4: 'static/sounds/melody 4.mp3',
+        melody1: 'static/sounds/melody 1.ogg',
+        melody2: 'static/sounds/melody 2.ogg',
+        melody3: 'static/sounds/melody 3.ogg',
+        melody4: 'static/sounds/melody 4.ogg',
 
-        pads1: 'static/sounds/pads 1.mp3',
-        pads2: 'static/sounds/pads 2.mp3',
-        pads3: 'static/sounds/pads 3.mp3',
-        pads4: 'static/sounds/pads 4.mp3',
+        pads1: 'static/sounds/pads 1.ogg',
+        pads2: 'static/sounds/pads 2.ogg',
+        pads3: 'static/sounds/pads 3.ogg',
+        pads4: 'static/sounds/pads 4.ogg',
 
-        perc1: 'static/sounds/perc 1.mp3',
-        perc2: 'static/sounds/perc 2.mp3',
-        perc3: 'static/sounds/perc 3.mp3',
-        perc4: 'static/sounds/perc 4.mp3'
+        perc1: 'static/sounds/perc 1.ogg',
+        perc2: 'static/sounds/perc 2.ogg',
+        perc3: 'static/sounds/perc 3.ogg',
+        perc4: 'static/sounds/perc 4.ogg'
       },
       finishedLoading
   );
