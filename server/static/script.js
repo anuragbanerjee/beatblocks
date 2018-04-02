@@ -15,6 +15,10 @@ $(document).ready(function() {
   let started = false;
   socket.on('blocks', (blocks) => {
     console.log("from server: ", blocks);
+    if (blocks == null) {
+      blocks = []
+    }
+    
     let b = blocks.map(b => `<li>${b["color"]} ${b["shape"]}</li>`).join("")
     $("#messages").innerHTML = `
       ${b}`;
