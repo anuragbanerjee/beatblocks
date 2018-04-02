@@ -27,19 +27,23 @@ def sendBlocks():
             # blocks = genBlocks() # for testing purposes only
             end = time.time()
             print("TOOK: " + str(end - start))
-            # socketio.sleep(1)
+            print(blocks)
             socketio.emit("blocks", data=blocks, broadcast=True)
     except:
         socketio.sleep(1)
         sendBlocks()
 
+@app.route("/hi")
+def hello():
+    socketio.emit("blocks", data=[], broadcast=True)
+    return "HELLO"
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-socketio.start_background_task(target=sendBlocks)
 
 if __name__ == "__main__":
+    socketio.start_background_task(target=sendBlocks)
     print("RUNNING ON localhost:5000")
     socketio.run(app)

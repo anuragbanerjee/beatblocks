@@ -103,8 +103,9 @@ def findBlocks(frame, debug=False):
 
         cv2.bitwise_not(maskOverall, maskOverall, mask = mask)
 
-        # draw bounding boxes for detected shapes/contours
-        cv2.drawContours(output,[box],0,(0, 0, 255), 10)
+        if debug:
+            # draw bounding boxes for detected shapes/contours
+            cv2.drawContours(output,[box],0,(0, 0, 255), 10)
 
         # get the average color from the sampled region
         blurred = cv2.GaussianBlur(output, (9, 9), 0)
@@ -191,7 +192,6 @@ def findBlocks(frame, debug=False):
 
         # print(blocks)
 
-
     if debug:
         # overlay masks to overall image
         maskOverall = cv2.cvtColor(maskOverall, cv2.COLOR_GRAY2BGR)
@@ -256,22 +256,16 @@ def getBlocks(debug=False):
     '''
     returns something like [
         {
-         "positionX"   : 12,
-         "positionY"   : 12,
-         "color"   :  "blue",
-         "shape"   :  "triangle"
+         "color":  "blue",
+         "shape":  "triangle"
         },
         {
-         "positionX"   : 12,
-         "positionY"   : 12,
-         "color"   :  "blue",
-         "shape"   :  "triangle"
+         "color":  "blue",
+         "shape":  "triangle"
         },
         {
-         "positionX"   : 12,
-         "positionY"   : 12,
-         "color"   :  "blue",
-         "shape"   :  "triangle"
+         "color":  "blue",
+         "shape":  "triangle"
         }
     ]
     '''

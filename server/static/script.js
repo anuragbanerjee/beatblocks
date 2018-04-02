@@ -14,14 +14,14 @@ $(document).ready(function() {
 
   let started = false;
   socket.on('blocks', (blocks) => {
-    console.log("from server: ", block);
+    console.log("from server: ", blocks);
     let b = blocks.map(b => `<li>${b["color"]} ${b["shape"]}</li>`).join("")
     $("#messages").innerHTML = `
       ${b}`;
 
     all_blocks = blocks;
 
-    if (started == false) {
+    if (started == false && all_blocks.length > 0) {
       sources.forEach(s => s.start(0))
       started = true;
     }
