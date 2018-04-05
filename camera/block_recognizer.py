@@ -137,10 +137,6 @@ def findBlocks(frame, debug=False):
             "pink": int(getColorMatchPercentage(pink, blockColor))
         }
 
-        colorMatches["blue"] *= 1.2
-        colorMatches["purple"] -= 3.5
-        # colorMatches["pink"] += 1.5
-
         predictedColor = max(colorMatches, key=colorMatches.get)
 
         # determines number of corners in the contour
